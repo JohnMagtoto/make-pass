@@ -26,24 +26,25 @@ fn generate_dictionary(no_similar: bool) -> String {
         dictionary = dictionary.replace(SIMILAR_CHARS, "");
     }
 
-    return dictionary;
+    dictionary
 }
 
 fn generate_character(dictionary: &String) -> String {
-    // Collect valid password characters
-    let dict: Vec<&str> = dictionary.split_whitespace().collect();
+    let pass_chars: Vec<&str> = dictionary.split_whitespace().collect();
+
     // Get random character
-    let rand = thread_rng().gen_range(0..dict.len());
-    dict[rand].to_owned()
+    let rand: usize = thread_rng().gen_range(0..pass_chars.len());
+
+    pass_chars[rand].to_owned()
 }
 
 fn generate_password(pass_len: usize, no_similar: bool) -> String {
     let mut pass_string = String::new();
 
-    let pass_dict = generate_dictionary(no_similar);
+    let char_dictionary = generate_dictionary(no_similar);
 
     for _ in 0..pass_len {
-        pass_string.push_str(&generate_character(&pass_dict))
+        pass_string.push_str(&generate_character(&char_dictionary))
     }
 
     return pass_string;
