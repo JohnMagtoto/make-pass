@@ -19,16 +19,17 @@ enum Length {
     Long,
 }
 
-fn generate_character(no_similar: bool) -> String {
-    // TODO: Make function DRY: move dictionary compilation
-
-    // Join all valid password character sets
+fn generate_dictionary(no_similar: bool) -> String {
     let mut dictionary = [LOWERCASES, UPPERCASES, NUMBERS, SYMBOLS].join(" ");
 
     if no_similar == true {
         dictionary = dictionary.replace(SIMILAR_CHARS, "");
     }
 
+    return dictionary;
+}
+
+fn generate_character(dictionary: &String) -> String {
     // Collect valid password characters
     let dict: Vec<&str> = dictionary.split_whitespace().collect();
     // Get random character
@@ -39,8 +40,10 @@ fn generate_character(no_similar: bool) -> String {
 fn generate_password(pass_len: usize, no_similar: bool) -> String {
     let mut pass_string = String::new();
 
+    let pass_dict = generate_dictionary(no_similar);
+
     for _ in 0..pass_len {
-        pass_string.push_str(&generate_character(no_similar))
+        pass_string.push_str(&generate_character(&pass_dict))
     }
 
     return pass_string;
